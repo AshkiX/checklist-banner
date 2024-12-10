@@ -1,0 +1,65 @@
+Code Style and Structure
+
+	•	Write concise, modular TypeScript code with strong typing and explicit interfaces.
+	•	Use functional programming patterns; avoid classes.
+	•	Prefer small, reusable functions and clear module boundaries.
+	•	Use descriptive variable names with clear intent (e.g., isValidInput, generatePreview).
+	•	Organize files into clearly defined folders:
+	•	src/ for core logic and implementation.
+	•	tests/ for test cases.
+	•	backgrounds/ for static assets like banner backgrounds.
+	•	docs/ for documentation.
+
+TypeScript Best Practices
+
+	•	Enforce strict mode (strict: true in tsconfig.json).
+	•	Use interfaces or types for all function arguments and return values.
+	•	Prefer readonly for immutability.
+	•	Avoid using any; use unknown or proper types instead.
+	•	Use Record, Partial, and Pick for reusable object structures.
+
+Code Formatting
+
+	•	Use 2-space indentation.
+	•	Use double quotes for strings.
+	•	Always use semicolons.
+	•	Prefer arrow functions for simplicity and consistency.
+	•	Use trailing commas in multi-line object and array literals.
+	•	Keep lines under 100 characters for readability.
+
+Naming Conventions
+
+	•	Use camelCase for variables, functions, and object properties.
+	•	Use PascalCase for TypeScript types, interfaces, and React components.
+	•	Use lowercase with dashes for directories (e.g., server/image-generator).
+
+Project-Specific Rules
+
+Image Generation
+
+	•	Use canvas in TS for image manipulation.
+
+Cloudflare Workers
+
+	•	Use TypeScript for all server scripts.
+
+Testing
+
+Unit Tests
+
+	•	Use Vitest to write unit tests
+
+Integration Tests
+
+	•	Mock API calls for X and Bluesky to verify workflows.
+	•	Simulate Google Sheet inputs for end-to-end validation.
+
+Coverage
+
+	•	Maintain at least 90% test coverage.
+	•	Include tests for edge cases and invalid inputs.
+
+Security
+
+	•	Sanitize all user inputs to prevent injection attacks.
+	•	Use environment variables for sensitive credentials.

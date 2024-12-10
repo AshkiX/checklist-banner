@@ -1,0 +1,10 @@
+{
+  "backgroundKey": "bg.png",
+  "font": "Arial",
+  "fontSize": 18,
+  "textColor": "#FFFFFF",
+  "placement": {
+    "header": {"x": 50, "y": 20},
+    "checklist": {"x": 50, "y": 100}
+  }
+}
