@@ -1,7 +1,6 @@
-import { put, del } from '@vercel/blob';
+import { put } from '@vercel/blob';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { generateBannerImage } from '../../src/core/image_generator';
-import { processMarkdown } from '../../src/utils/markdown';
 import { ImageConfig } from '../../src/types';
 
 export default async function handler(
