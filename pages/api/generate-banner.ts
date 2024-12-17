@@ -1,7 +1,7 @@
 import { put } from '@vercel/blob';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { generateBannerImage } from '../../src/core/image_generator';
-import { ImageConfig } from '../../src/types';
+import { generateBannerImage } from '../../src/core/image_generator.ts';
+import { ImageConfig } from '../../src/types/index.ts';
 
 export default async function handler(
   req: NextApiRequest, 
@@ -27,8 +27,9 @@ export default async function handler(
       const backgroundBlob = await fetch(
         `${process.env.NEXT_PUBLIC_BLOB_URL}/backgrounds/${backgroundKey}`
       );
+      console.log("Background blob:", backgroundBlob);
       const backgroundBuffer = await backgroundBlob.arrayBuffer();
-
+      
       // Prepare image configuration
       const imageConfig: ImageConfig = {
         backgroundKey,

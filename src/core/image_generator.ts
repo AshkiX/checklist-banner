@@ -22,6 +22,7 @@ export const generateBannerImage = async (
         throw new Error("Invalid background image: ArrayBuffer is undefined or null");
     }
 
+    console.log("Background image array buffer length:", backgroundImageArrayBuffer.byteLength);
     const image = await Jimp.fromBuffer(backgroundImageArrayBuffer);
 
     // Load font
