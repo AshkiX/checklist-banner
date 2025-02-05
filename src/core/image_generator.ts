@@ -1,10 +1,13 @@
 import { ChecklistData, ImageConfig } from "../types/index.ts";
 import { processMarkdown } from "../utils/markdown.ts";
 import { Buffer } from "buffer";
+import { Jimp, JimpMime, loadFont } from "jimp";
 
-// const Jimp = require('Jimp');
-import { Jimp, JimpMime, loadFont } from 'jimp';
-import { SANS_10_BLACK } from "jimp/fonts";
+// Constants for image constraints
+const MAX_IMAGE_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
+const MAX_IMAGE_PIXELS = 1_000_000;
+const MAX_IMAGE_WIDTH = 1000;
+const MAX_IMAGE_HEIGHT = 1000;
 
 export const generateBannerImage = async (
   checklistData: ChecklistData, 
@@ -15,21 +18,30 @@ export const generateBannerImage = async (
   const { header, items } = checklistData;
 
   try {
+    // Validate input
+    if (!backgroundImageArrayBuffer) {
+      throw new Error("Invalid background image: ArrayBuffer is undefined or null");
+    }
+
     // Process markdown items
     const processedItems = await processMarkdown(items);
 
-    if (!backgroundImageArrayBuffer) {
-        throw new Error("Invalid background image: ArrayBuffer is undefined or null");
-    }
-
-    console.log("Background image array buffer length:", backgroundImageArrayBuffer.byteLength);
+    // Load image and resize if necessary
     const image = await Jimp.fromBuffer(backgroundImageArrayBuffer);
+    
+    // Resize image if it exceeds constraints
+    if (image.bitmap.width > MAX_IMAGE_WIDTH || image.bitmap.height > MAX_IMAGE_HEIGHT) {
+      console.log("Resizing image");
+      image.scaleToFit({
+        w: MAX_IMAGE_WIDTH,
+        h: MAX_IMAGE_HEIGHT
+      });
+    }
 
     // Load font
     // const font = await loadFont(SANS_10_BLACK); // Doesn't work on Vercel
     const font = await loadFont("./fonts/Roboto-Regular-16.fnt");
     
-    console.log("Font:", font);
     // Draw header
     image.print({
       font: font, 
