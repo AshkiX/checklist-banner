@@ -26,9 +26,10 @@ export const generateBannerImage = async (
     const image = await Jimp.fromBuffer(backgroundImageArrayBuffer);
 
     // Load font
-    const font = await loadFont(SANS_10_BLACK);
-
-
+    // const font = await loadFont(SANS_10_BLACK); // Doesn't work on Vercel
+    const font = await loadFont("./fonts/Roboto-Regular-16.fnt");
+    
+    console.log("Font:", font);
     // Draw header
     image.print({
       font: font, 
