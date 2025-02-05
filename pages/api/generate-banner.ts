@@ -24,10 +24,41 @@ export default async function handler(
       }
 
       // Fetch background image from Vercel Blob
-      const backgroundBlob = await fetch(
-        `${process.env.NEXT_PUBLIC_BLOB_URL}/backgrounds/${backgroundKey}`
-      );
-      console.log("Background blob:", backgroundBlob);
+      const backgroundImageUrl = `${process.env.NEXT_PUBLIC_BLOB_URL}/backgrounds/${backgroundKey}`;
+      const backgroundBlob = await fetch(backgroundImageUrl);
+
+      // Validate background image fetch
+      if (!backgroundBlob.ok) {
+        console.error(`Failed to fetch background image: ${backgroundImageUrl}`);
+        console.error(`Status: ${backgroundBlob.status}, StatusText: ${backgroundBlob.statusText}`);
+        
+        return res.status(404).json({ 
+          error: 'Background image not found', 
+          details: {
+            backgroundKey,
+            url: backgroundImageUrl,
+            status: backgroundBlob.status,
+            statusText: backgroundBlob.statusText
+          }
+        });
+      }
+
+      // Validate content type
+      const contentType = backgroundBlob.headers.get('content-type');
+      const allowedImageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+      if (!contentType || !allowedImageTypes.includes(contentType)) {
+        console.error(`Invalid background image content type: ${contentType}`);
+        
+        return res.status(400).json({ 
+          error: 'Invalid background image type', 
+          details: {
+            backgroundKey,
+            contentType,
+            allowedTypes: allowedImageTypes
+          }
+        });
+      }
+
       const backgroundBuffer = await backgroundBlob.arrayBuffer();
       
       // Prepare image configuration
